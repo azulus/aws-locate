@@ -1,7 +1,7 @@
 var Q = require('kew')
 var http = require('http')
 
-var getAvailabilityZone = exports.getAvailabilityZone = function getAvailabilityZone() {
+var getAvailabilityZone = exports.getAvailabilityZone = function getAvailabilityZone(callback, callbackScope) {
   var defer = Q.defer()
   var options = {
     host: '169.254.169.254',
@@ -21,12 +21,28 @@ var getAvailabilityZone = exports.getAvailabilityZone = function getAvailability
     defer.reject(e)
   })
 
-  return defer.promise
+  var promise = defer.promise
+
+  if (callback) {
+    promise = promise
+      .then(callback.bind(callbackScope, null))
+      .fail(callback.bind(callbackScope))
+  }
+
+  return promise
 }
 
-var getRegion = exports.getRegion = function getRegion() {
-  return getAvailabilityZone()
+var getRegion = exports.getRegion = function getRegion(callback, callbackScope) {
+  var promise = getAvailabilityZone()
     .then(function (zone) {
       return zone.replace(/([0-9][0-9]*)[a-z]*$/, "$1")
     })
+
+  if (callback) {
+    promise = promise
+      .then(callback.bind(callbackScope, null))
+      .fail(callback.bind(callbackScope))
+  }
+
+  return promise
 }
