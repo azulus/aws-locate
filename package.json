@@ -1,0 +1,26 @@
+{
+    "name": "aws-locate"
+  , "description": "Locate the region and/or availability zone for a node process running on EC2"
+  , "version": "0.0.1"
+  , "homepage": "https://github.com/azulus/aws-locate"
+  , "authors": [
+    "Jeremy Stanley <github@azulus.com> (https://github.com/azulus)"
+  ]
+  , "contributors": [
+
+    ]
+  , "keywords": ["aws", "region", "zone", "availability zone", "ec2"]
+  , "main": "index.js"
+  , "repository": {
+      "type": "git"
+    , "url": "https://github.com/azulus/aws-locate.git"
+  }
+  , "dependencies": {
+  }
+  , "devDependencies": {
+        "nodeunit": "0.7.4"
+    }
+  , "scripts": {
+      "test": "./node_modules/nodeunit/bin/nodeunit test"
+    }
+}
