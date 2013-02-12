@@ -9,7 +9,7 @@ var getAvailabilityZone = exports.getAvailabilityZone = function getAvailability
     path: '/latest/meta-data/placement/availability-zone'
   }
 
-  http.get(options, function (res) {
+  var req = http.get(options, function (res) {
     var data = ''
     res.on('data', function (chunk) {
       data += chunk
@@ -19,6 +19,11 @@ var getAvailabilityZone = exports.getAvailabilityZone = function getAvailability
     })
   }).on('error', function (e) {
     defer.reject(e)
+  }).on('socket', function (socket) {
+    socket.setTimeout(2000);
+    socket.on('timeout', function() {
+        req.abort();
+    });
   })
 
   var promise = defer.promise
